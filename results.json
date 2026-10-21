@@ -1,0 +1,32 @@
+{
+  "question": "Can a validation-tuned fusion of two text views rank relevant documents better (NDCG@10) than a single fixed-rule score, as a stand-in for the paper's fixed entropy-based fusion of visual and speech evidence?",
+  "method": "Stand-in retrieval on 20 Newsgroups: documents as videos, newsgroup descriptions as queries; fusion weights of word TF-IDF, char n-gram TF-IDF and LSA cosine scores grid-searched on a validation split.",
+  "dataset": {
+    "name": "20 Newsgroups (scikit-learn fetch_20newsgroups, subset=all, headers/footers/quotes removed)",
+    "source_url": "https://scikit-learn.org/stable/datasets/real_world.html#the-20-newsgroups-text-dataset",
+    "n_rows": 18846,
+    "n_train": 11307,
+    "n_test": 4712,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "NDCG@10",
+  "higher_is_better": true,
+  "baseline": "Single-view word TF-IDF cosine retrieval with a fixed score rule (no tuning).",
+  "improved": "Weighted fusion of word TF-IDF, char_wb n-gram TF-IDF and LSA (200-d) cosine scores; weights chosen by grid search on the validation split only.",
+  "metrics": {
+    "baseline_score": 0.616528582059708,
+    "improved_score": 0.7566150963118158,
+    "improvement": 0.14008651425210783,
+    "baseline_score_std": 0.0,
+    "improved_score_std": 0.006525472794528888,
+    "baseline_mrr": 0.7641666666666667,
+    "improved_mrr": 0.8652777777777777,
+    "baseline_recall_at_10": 0.025738316387709098,
+    "improved_recall_at_10": 0.03126248931242697,
+    "best_weight_word": 0.0,
+    "best_weight_char": 0.75,
+    "best_weight_lsa": 1.0
+  },
+  "notes": "Stand-in for the paper's zero-shot text-to-video setting, not a replication of Q2E; no visual or speech input. Queries are hand-written newsgroup descriptions and relevance is binary (same newsgroup), so only 20 queries are evaluated. Validation is a stratified 20% holdout of the non-test data. Only LSA is randomized (seeds 42-44); the baseline is deterministic, so its std is 0. The full dataset (~18.8k rows) is used, with no subsampling. The 60 s timeout is applied via the socket default, since scikit-learn does not expose a timeout parameter."
+}
