@@ -21,6 +21,29 @@ python analysis.py
 
 Results: written to `results.json` (charts go to `figures/`).
 
+## Results (latest run)
+
+On the 20 Newsgroups stand-in (newsgroup descriptions as queries, 20 queries, same-newsgroup relevance), validation-tuned fusion of word TF-IDF, char n-gram TF-IDF and LSA reached NDCG@10 of 75.7%, versus 61.7% for single-view word TF-IDF cosine retrieval on the same test set.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.6165 |
+| improved_score | 0.7566 |
+| improvement | 0.1401 |
+| baseline_score_std | 0 |
+| improved_score_std | 0.006525 |
+| baseline_mrr | 0.7642 |
+| improved_mrr | 0.8653 |
+| baseline_recall_at_10 | 0.02574 |
+| improved_recall_at_10 | 0.03126 |
+| best_weight_word | 0 |
+| best_weight_char | 0.75 |
+| best_weight_lsa | 1 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Stand-in for the paper's zero-shot text-to-video setting, not a replication of Q2E; no visual or speech input. Queries are hand-written newsgroup descriptions and relevance is binary (same newsgroup), so only 20 queries are evaluated. Validation is a stratified 20% holdout of the non-test data. Only LSA is randomized (seeds 42-44); the baseline is deterministic, so its std is 0. The full dataset (~18.8k rows) is used, with no subsampling. The 60 s timeout is applied via the socket default, since scikit-learn does not expose a timeout parameter.
+
 ## Reference
 
 This project is motivated by the following paper:
